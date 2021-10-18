@@ -8,123 +8,47 @@ int func_onn(int number){
 	  switch(number)
 	  {
 			case 0:
-					LED_ON_1;
-					LED_ON_4;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_7;
-					LED_ON_8;
-					LED_OFF_0;
-
+				ON_NUMBER_0;
 				break;
+
 			case 1:
-					LED_ON_6;
-					LED_ON_7;
-					LED_OFF_0;
-
-					LED_OFF_1;
-					LED_OFF_5;
-					LED_OFF_4;
-					LED_OFF_8;
-
-
+				ON_NUMBER_1;
 				break;
+
 			case 2:
-					LED_ON_0;
-					LED_ON_4;
-					LED_ON_5;
-					LED_ON_8;
-					LED_ON_7;
-
-
-					LED_OFF_1;
-					LED_OFF_6;
-
-
+				ON_NUMBER_2;
 				break;
+
 			case 3:
-					LED_ON_0;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_7;
-					LED_ON_8;
-
-
-					LED_OFF_1;
-					LED_OFF_4;
-
-
-
+				ON_NUMBER_3;
 				break;
+
 			case 4:
-					LED_ON_0;
-					LED_ON_1;
-					LED_ON_6;
-					LED_ON_7;
-
-
-					LED_OFF_4;
-					LED_OFF_5;
-					LED_OFF_8;
-
-
+				ON_NUMBER_4;
 				break;
+
 			case 5:
-					LED_ON_0;
-					LED_ON_1;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_8;
-
-
-					LED_OFF_4;
-					LED_OFF_7;
-
-
+				ON_NUMBER_5;
 				break;
+
 			case 6:
-					LED_ON_0;
-					LED_ON_1;
-					LED_ON_4;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_8;
-
-					LED_OFF_7;
-
-
+				ON_NUMBER_6;
 				break;
+
 			case 7:
-					LED_ON_6;
-					LED_ON_7;
-					LED_ON_8;
-
-					LED_OFF_0;
-					LED_OFF_1;
-					LED_OFF_4;
-					LED_OFF_5;
-
+				ON_NUMBER_7;
 				break;
+
 			case 8:
-					LED_ON_0;
-					LED_ON_1;
-					LED_ON_4;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_7;
-					LED_ON_8;
-
+				ON_NUMBER_8;
 				break;
+
 			case 9:
-					LED_ON_0;
-					LED_ON_1;
-					LED_ON_5;
-					LED_ON_6;
-					LED_ON_7;
-					LED_ON_8;
+				ON_NUMBER_9;
+				break;
 
-					LED_OFF_4;
-
+			default:
+				ON_NUMBER_0;
 				break;
 		}
 	  return 0;
@@ -204,15 +128,11 @@ int main(void)
 			if(((GPIOA->IDR & GPIO_IDR_IDR9) == 0) && number < 9)
 	    {
 				number++;
-
-
 	      delay(200000);
+
 			func_onn(number);
 
 	    }
-
-
-
 
 			else if(((GPIOA->IDR & GPIO_IDR_IDR10) == 0) && number > 0)
 		    {
@@ -220,10 +140,10 @@ int main(void)
 
 
 
-
 		      delay(200000);
 
 		    }
+			GPIOA->BSRR = 0x00000;
 				func_onn(number);
 
 
