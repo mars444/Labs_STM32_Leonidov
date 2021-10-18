@@ -15,11 +15,12 @@
 #define ON_NUMBER_6  GPIOA->BSRR = 0x173
 #define ON_NUMBER_7  GPIOA->BSRR = 0x1C0
 #define ON_NUMBER_8  GPIOA->BSRR = 0x1F3
-#define ON_NUMBER_9  GPIOA->BSRR = 0xF1
+#define ON_NUMBER_9  GPIOA->BSRR = 0x1E3
 
 
 /* Прототипы функций */
 void delay(uint32_t takts);
 int func_onn(int number);
+void Reset_number(void);
 
 #endif /* MAIN_H_ */
