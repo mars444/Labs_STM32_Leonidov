@@ -1,26 +1,170 @@
-#ifndef MAIN_H_
-#define MAIN_H_
-
-#include "stm32f1xx.h"
+#include "main.h"
 
 
-#define ON_NUMBER_0  GPIOA->BSRR = 0x1F2
-#define ON_NUMBER_1  GPIOA->BSRR = 0xC0
-#define ON_NUMBER_2  GPIOA->BSRR = 0x1B1
-#define ON_NUMBER_3  GPIOA->BSRR = 0x1E1
-#define ON_NUMBER_4  GPIOA->BSRR = 0xC3
-#define ON_NUMBER_5  GPIOA->BSRR = 0x163
-#define ON_NUMBER_6  GPIOA->BSRR = 0x173
-#define ON_NUMBER_7  GPIOA->BSRR = 0x1C0
-#define ON_NUMBER_8  GPIOA->BSRR = 0x1F3
-#define ON_NUMBER_9  GPIOA->BSRR = 0x1E3
+int number = 0;
+
+void Reset_number(void){
+
+		GPIOA->BSRR = GPIO_BSRR_BR0;
+		GPIOA->BSRR = GPIO_BSRR_BR1;
+		GPIOA->BSRR = GPIO_BSRR_BR4;
+		GPIOA->BSRR = GPIO_BSRR_BR5;
+		GPIOA->BSRR = GPIO_BSRR_BR6;
+		GPIOA->BSRR = GPIO_BSRR_BR7;
+		GPIOA->BSRR = GPIO_BSRR_BR8;
+
+}
 
 
-/* Прототипы функций */
-void delay(uint32_t takts);
-int func_onn(int number);
-void Reset_number(void);
+int func_onn(int number){
 
-#define DELAY_VALUE	delay(200000)
 
-#endif /* MAIN_H_ */
+	Reset_number();
+
+	  switch(number)
+	  {
+			case 0:
+				ON_NUMBER_0;
+				break;
+
+			case 1:
+				ON_NUMBER_1;
+				break;
+
+			case 2:
+				ON_NUMBER_2;
+				break;
+
+			case 3:
+				ON_NUMBER_3;
+				break;
+
+			case 4:
+				ON_NUMBER_4;
+				break;
+
+			case 5:
+				ON_NUMBER_5;
+				break;
+
+			case 6:
+				ON_NUMBER_6;
+				break;
+
+			case 7:
+				ON_NUMBER_7;
+				break;
+
+			case 8:
+				ON_NUMBER_8;
+				break;
+
+			case 9:
+				ON_NUMBER_9;
+				break;
+
+			default:
+				ON_NUMBER_0;
+				break;
+		}
+	  return 0;
+	}
+
+
+
+
+int main(void)
+{
+	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;	//включить тактирование GPIOA
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF0 | GPIO_CRL_MODE0);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE0_1;		//PA5 (LD3), выход 2МГц
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF1 | GPIO_CRL_MODE1);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE1_1;		//PA5 (LD3), выход 2МГц
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF4 | GPIO_CRL_MODE4);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE4_1;		//PA5 (LD3), выход 2МГц
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF5 | GPIO_CRL_MODE5);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE5_1;		//PA5 (LD3), выход 2МГц
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF6 | GPIO_CRL_MODE6);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE6_1;		//PA5 (LD3), выход 2МГц
+
+
+	//очистка полей
+	GPIOA->CRL &= ~(GPIO_CRL_CNF7 | GPIO_CRL_MODE7);
+	//и конфигурация
+	GPIOA->CRL |= GPIO_CRL_MODE7_1;		//PA5 (LD3), выход 2МГц
+
+
+	//очистка полей
+	GPIOA->CRH &= ~(GPIO_CRH_CNF8 | GPIO_CRH_MODE8);
+	//и конфигурация
+	GPIOA->CRH |= GPIO_CRH_MODE8_1;		//PA5 (LD3), выход 2МГц
+
+
+
+
+		GPIOA->CRH &= ~(GPIO_CRH_CNF9 | GPIO_CRH_MODE9);
+
+	  GPIOA->CRH |= GPIO_CRH_CNF9_1;
+	  GPIOA->BSRR |= GPIO_BSRR_BS9;
+
+
+		GPIOA->CRH &= ~(GPIO_CRH_CNF10 | GPIO_CRH_MODE10);
+
+	  GPIOA->CRH |= GPIO_CRH_CNF10_1;
+	  GPIOA->BSRR |= GPIO_BSRR_BS10;
+
+
+
+	//Бесконечный цикл
+	while(1) {
+
+
+	    //Проверка нажата ли кнопка
+			if(((GPIOA->IDR & GPIO_IDR_IDR9) == 0) && number < 9)
+	    {
+				number++;
+				DELAY_VALUE;
+
+			func_onn(number);
+
+	    }
+
+			else if(((GPIOA->IDR & GPIO_IDR_IDR10) == 0) && number > 0)
+		    {
+					number--;
+
+
+
+					DELAY_VALUE;
+
+		    }
+			GPIOA->BSRR = 0x00000;
+				func_onn(number);
+
+	}
+}
+
+/**
+  * @brief  Подпрограмма задержки
+  * @param  takts - Кол-во тактов
+  * @retval None
+  */
+void delay(uint32_t takts)
+{
+	for (uint32_t i = 0; i < takts; i++) {};
+}
