@@ -5,6 +5,13 @@ int number = 0;
 
 int func_onn(int number){
 
+	GPIOA->BSRR = GPIO_BSRR_BR0;
+	GPIOA->BSRR = GPIO_BSRR_BR1;
+	GPIOA->BSRR = GPIO_BSRR_BR4;
+	GPIOA->BSRR = GPIO_BSRR_BR5;
+	GPIOA->BSRR = GPIO_BSRR_BR6;
+	GPIOA->BSRR = GPIO_BSRR_BR7;
+	GPIOA->BSRR = GPIO_BSRR_BR8;
 	  switch(number)
 	  {
 			case 0:
