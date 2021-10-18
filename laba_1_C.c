@@ -201,7 +201,7 @@ int main(void)
 
 
 	    //Проверка нажата ли кнопка
-			if((GPIOA->IDR & GPIO_IDR_IDR9) == 0)   // Нулевой бит (ножка PB0) равен нулю?
+			if(((GPIOA->IDR & GPIO_IDR_IDR9) == 0) && number < 9)
 	    {
 				number++;
 
@@ -214,7 +214,7 @@ int main(void)
 
 
 
-			else if((GPIOA->IDR & GPIO_IDR_IDR10) == 0)   // Нулевой бит (ножка PB0) равен нулю?
+			else if(((GPIOA->IDR & GPIO_IDR_IDR10) == 0) && number > 0)
 		    {
 					number--;
 
