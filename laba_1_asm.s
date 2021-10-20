@@ -1,20 +1,24 @@
 ///start code  //start code   //start code  //start code  //start code
 // Включаем тактирование порта А с момощью BitBanding (см лекции)
+	push	{r0,r1}
 	mov32	r0, PERIPH_BB_BASE + \
 		(RCC_APB2ENR-PERIPH_BASE) * 32 + 2 * 4
 										@ вычисляем адрес для BitBanding 2-го бита регистра RCC_APB2ENR
 										@ BitAddress = BitBandBase + (RegAddr * 32) + BitNumber * 4
 	mov		r1, #1						@ включаем тактирование порта A (в 2-й бит RCC_APB2ENR пишем '1`)
 	str 	r1, [r0]					@ загружаем это значение
+	pop	{r0,r1}
 
 
 
 	// Настравиваем ноги PA0,PA1, PA4-PA7  на выход push-pull, загрузив 0011, что равно 3 в хексе
+	push	{r0,r1,r2}
 	MOV32	R0, GPIOA_CRL
     MOV32	R1, #0x33330033
 	LDR		R2, [R0]
     BFI		R2, R1, #0, #31 //отступаем 0 бит и в след 31 бит записываем 0011
     STR		R2, [R0]
+    pop	{r0,r1,r2}
 
 	// Настравиваем ногу PA8 на выход push-pull, загрузив 0011, что равно 3 в хексе
 	MOV32	R0, GPIOA_CRH
@@ -24,15 +28,18 @@
     STR		R2, [R0]
 
 	// Настравиваем ноги PA9, PA10 (кнопки) на вход, загрузив 1000, что равно 8 в хексе
+	push	{r0,r1,r2}
 	MOV32	R0, GPIOA_CRH
     MOV32	R0, GPIOA_CRH
     MOV32	R1, #0x88
 	LDR		R2, [R0]
     BFI		R2, R1, #4, #8  //отступаем 4 бит и в след 8 бит записываем 0011
     STR		R2, [R0]
+    pop	{r0,r1,r2}
 
 
 	MOV R5,   #0    // Записыаает первое число, котрое хотим увидеть на семисегментнике
+
 
 
 main:	  // НАчало основного цикла, аналоги ф-ции main в Си
@@ -53,10 +60,12 @@ button_increment_pa9:
 
 	bl  delay
 
+
 	CMP     R5, #9
 	ITE     EQ
 	MOVEQ   R5, #9
 	ADDNE   R5, #1
+
 
 button_decrement_pa10:
 	push	{r2,r3}
@@ -74,6 +83,7 @@ button_decrement_pa10:
 	ITE     EQ
 	MOVEQ   R5, #0
 	SUBNE   R5, #1
+
 
 
 	B 		main						// переходим по метке main
