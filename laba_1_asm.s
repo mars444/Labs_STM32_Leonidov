@@ -85,22 +85,10 @@ LED_ON:
 
 
 Reset_number:
-	mov32	r1, #GPIO_BSRR_BR5
+	MOV32	R0, GPIOA_BSRR
+	mov32		r1, #0x1F30000 // загружаем в оегистр бсрр 1111100110000000000000000 чтобы сбросить в 0 ноги pa1,pa2,pa4-pa8
 	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR0
-	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR1
-	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR4
-	str 	r1, [r0]
-	mov32	r1, #GPIO_BSRR_BR6
-	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR7
-	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR8
-	str 	r1, [r0]
-	mov32 	r1, #GPIO_BSRR_BR9
-	str 	r1, [r0]
+
 
 
 
