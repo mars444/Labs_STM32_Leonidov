@@ -24,5 +24,7 @@
 void delay(uint32_t takts);
 int func_onn(int number);
 void Reset_number(void);
+void port_configuration(void);
+void loop(void);
 
 #endif /* MAIN_H_ */
