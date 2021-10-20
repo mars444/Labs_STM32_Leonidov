@@ -82,7 +82,7 @@ button_decrement_pa10:
 LED_ON:
 
     PUSH	{R0, R1}
-    bl delay
+
 
 Reset_number:
 	mov32	r1, #GPIO_BSRR_BR5
@@ -163,7 +163,7 @@ DestEnd:
 
 delay:									@ Подпрограмма задержки
 	push	{r0}						@ Загружаем в стек R0, т.к. его значение будем менять
-	mov32	r0, 0xFFFC					@ псевдоинструкция Thumb (загрузить константу в регистр)
+	mov32	r0, 0x5FFFF					@ псевдоинструкция Thumb (загрузить константу в регистр)
 delay_loop:
 	subs	r0, #1						@ SUB с установкой флагов результата
 	it 		NE
