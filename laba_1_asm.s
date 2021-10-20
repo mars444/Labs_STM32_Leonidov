@@ -10,7 +10,6 @@
 	pop	{r0,r1}
 
 
-
 	// Настравиваем ноги PA0,PA1, PA4-PA7  на выход push-pull, загрузив 0011, что равно 3 в хексе
 	push	{r0,r1,r2}
 	mov32	R0, GPIOA_CRL
@@ -37,10 +36,7 @@
     str		R2, [R0]
     pop	{r0,r1,r2}
 
-
 	mov R5,   #0    // Записыаает первое число, котрое хотим увидеть на семисегментнике
-
-
 
 main:	  // НАчало основного цикла, аналоги ф-ции main в Си
 
@@ -48,6 +44,7 @@ main:	  // НАчало основного цикла, аналоги ф-ции 
     BL      Led_On     // Вызывает подпрорамму Led_On
 
 buttons:
+
 button_increment_pa9:
     push	{r2,r3}
  	mov32	R3, GPIOA_IDR
@@ -60,12 +57,10 @@ button_increment_pa9:
 
 	bl  delay
 
-
 	cmp     R5, #9
 	itE     eq
 	moveq   R5, #9
 	addne   R5, #1
-
 
 button_decrement_pa10:
 	push	{r2,r3}
@@ -84,23 +79,15 @@ button_decrement_pa10:
 	moveq   R5, #0
 	subne   R5, #1
 
-
-
 	B 		main						// переходим по метке main
 
-
 Led_On:
-
     push	{R0, R1}
-
 
 Reset_number:
 	mov32	R0, GPIOA_BSRR
 	mov32		r1, #0x1F30000 // загружаем в оегистр бсрр 1111100110000000000000000 чтобы сбросить в 0 ноги pa1,pa2,pa4-pa8
 	str 	r1, [r0]
-
-
-
 
 	TBB [PC, R5] //R5 is the index, PC is the base address of the branch table
 BranchTable:
@@ -155,8 +142,8 @@ Dest9:
 	str 	R1, [R0]
 	B       DestEnd
 DestEnd:
-    pop		{R0, R1}				    // Выгружаем из стека значения регистров R0 и R1, тем самым возвращая им те значения,
-										//которые у них были при сохранении в стек
+    pop		{R0, R1}	
+	// Выгружаем из стека значения регистров R0 и R1, тем самым возвращая им те значения,//которые у них были при сохранении в стек
     b     buttons						// Перехд к метке buttons
 
 delay:									@ Подпрограмма задержки
