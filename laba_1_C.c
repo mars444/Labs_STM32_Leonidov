@@ -5,14 +5,7 @@ int number = 0;
 
 void Reset_number(void){
 
-		GPIOA->BSRR = GPIO_BSRR_BR0;
-		GPIOA->BSRR = GPIO_BSRR_BR1;
-		GPIOA->BSRR = GPIO_BSRR_BR4;
-		GPIOA->BSRR = GPIO_BSRR_BR5;
-		GPIOA->BSRR = GPIO_BSRR_BR6;
-		GPIOA->BSRR = GPIO_BSRR_BR7;
-		GPIOA->BSRR = GPIO_BSRR_BR8;
-
+		GPIOA->BSRR = 0x1F30000;
 }
 
 
@@ -120,13 +113,13 @@ int main(void)
 		GPIOA->CRH &= ~(GPIO_CRH_CNF9 | GPIO_CRH_MODE9);
 
 	  GPIOA->CRH |= GPIO_CRH_CNF9_1;
-	  GPIOA->BSRR |= GPIO_BSRR_BS9;
+	  GPIOA->BSRR |= GPIO_BSRR_BR9;
 
 
 		GPIOA->CRH &= ~(GPIO_CRH_CNF10 | GPIO_CRH_MODE10);
 
 	  GPIOA->CRH |= GPIO_CRH_CNF10_1;
-	  GPIOA->BSRR |= GPIO_BSRR_BS10;
+	  GPIOA->BSRR |= GPIO_BSRR_BR10;
 
 
 
@@ -135,7 +128,7 @@ int main(void)
 
 
 	    //Проверка нажата ли кнопка
-			if(((GPIOA->IDR & GPIO_IDR_IDR9) == 0) && number < 9)
+			if(((GPIOA->IDR & GPIO_IDR_IDR9) != 0 ) && number < 9)
 	    {
 				number++;
 				DELAY_VALUE;
@@ -144,7 +137,7 @@ int main(void)
 
 	    }
 
-			else if(((GPIOA->IDR & GPIO_IDR_IDR10) == 0) && number > 0)
+			else if(((GPIOA->IDR & GPIO_IDR_IDR10) != 0) && number > 0)
 		    {
 					number--;
 
