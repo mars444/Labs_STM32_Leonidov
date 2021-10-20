@@ -3,16 +3,10 @@
 
 int number = 0;
 
-void Reset_number(void){
-
-		GPIOA->BSRR = 0x1F30000;
-}
-
-
 int func_onn(int number){
 
 
-	Reset_number();
+	RESET_NUMBER;
 
 	  switch(number)
 	  {
@@ -146,7 +140,6 @@ int main(void)
 					DELAY_VALUE;
 
 		    }
-			GPIOA->BSRR = 0x00000;
 				func_onn(number);
 
 	}
